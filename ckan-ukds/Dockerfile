@@ -1,7 +1,5 @@
 ARG ENV=base
 
-LABEL authors="UKDS-Jisc"
-
 FROM python:3.12-alpine AS python
 
 # ┌─────────────────────────────────────────────────────────────┐
