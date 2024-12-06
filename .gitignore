@@ -2,3 +2,5 @@
 
 # other
 .vscode
+.venv
+.idea
