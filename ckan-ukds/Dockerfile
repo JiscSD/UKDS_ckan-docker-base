@@ -108,9 +108,9 @@ RUN pip3 install -U pip && \
     ckan config-tool ${CKAN_INI} "ckan.plugins = ${CKAN__PLUGINS}"
 
 # Create ckan and ckan-sys users and the ckan-sys group plus set up the storage path
-RUN addgroup ${CKAN_SYS_USER} --gid 502 && \
-    adduser --home ${APP_DIR} --shell /bin/bash --group ${CKAN_SYS_USER} --uid 502 --system ${CKAN_SYS_USER} && \
-    adduser --home ${APP_DIR} --shell /bin/bash --group ${CKAN_SYS_USER} --uid 503 --system ${CKAN_USER}
+RUN addgroup ${CKAN_SYS_USER} -g 502 && \
+    adduser -h ${APP_DIR} -s /bin/bash -G ${CKAN_SYS_USER} -u 502 -S ${CKAN_SYS_USER} && \
+    adduser -h ${APP_DIR} -s /bin/bash -G ${CKAN_SYS_USER} -u 503 -S ${CKAN_USER}
 
 COPY setup/prerun.py ${APP_DIR}
 COPY setup/start_ckan.sh ${APP_DIR}
