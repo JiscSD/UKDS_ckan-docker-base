@@ -37,6 +37,10 @@ ENV UWSGI_HARAKIRI=50
 
 WORKDIR ${APP_DIR}
 
+# Check for updates
+RUN apt update && \
+    apt upgrade -y
+
 # Set up timezone
 RUN echo ${TZ} > /etc/timezone
 
