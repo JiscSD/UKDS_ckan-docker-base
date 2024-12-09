@@ -64,6 +64,8 @@ RUN apt install --no-install-recommends -y \
         libpq-dev \
         libtool \
         linux-headers-generic \
+        mc \
+        nano \
         wget && \
     apt clean
 
