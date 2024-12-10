@@ -7,4 +7,4 @@ jobs:
     uses: ./.github/workflows/reusable-build-and-test.yml
     with:
       ckan-major-version: "ukds-2.11.0"
-      ckan-services-version: "2.11.0"
+      ckan-services-version: "2.11"
