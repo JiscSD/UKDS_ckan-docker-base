@@ -77,7 +77,7 @@ RUN mkdir -p ${SRC_DIR}
 RUN pip3 install -U pip && \
     pip3 install uwsgi && \
     cd ${SRC_DIR} && \
-    pip3 install -e git+${GIT_URL}@${CKAN_REF}#egg=ckan && \
+    pip3 install -e git+${GIT_URL}@${CKAN_INSTALL_VERSION}#egg=ckan && \
     cd ckan && \
     pip3 install --no-binary markdown -r requirements.txt && \
     # Install CKAN envvars to support loading config from environment variables
@@ -92,18 +92,15 @@ RUN pip3 install -U pip && \
     pip3 install -e git+https://github.com/ckan/ckanext-pages.git#egg=ckanext-pages && \
     pip3 install -U requests[security] && \
     pip3 install -e git+https://github.com/ckan/ckanext-harvest.git#egg=ckanext-harvest && \
-    pip3 install -r ckanext-harvest/requirements.txt && \
+    pip3 install -r ${SRC_DIR}/ckanext-harvest/requirements.txt && \
     pip3 install -e git+https://github.com/ckan/ckanext-dcat.git#egg=ckanext-dcat && \
-    pip3 install -r ckanext-dcat/requirements.txt && \
-    git clone https://github.com/JiscSD/ckanext-customised_fields_from_tag_vocabulary.git && \
-    pip3 install -e ckanext-customised_fields_from_tag_vocabulary/. && \
-    pip3 install -r ckanext-customised_fields_from_tag_vocabulary/requirements.txt && \
-    git clone https://github.com/JiscSD/ckanext-ukdstheme.git && \
-    pip3 install -e ckanext-ukdstheme/. && \
-    pip3 install -r ckanext-ukdstheme/requirements.txt && \
-    git clone https://github.com/JiscSD/ckanext-dataset_geo_display.git && \
-    pip3 install -e ckanext-dataset_geo_display/. && \
-    pip3 install -r ckanext-dataset_geo_display/requirements.txt && \
+    pip3 install -r ${SRC_DIR}/ckanext-dcat/requirements.txt && \
+    pip3 install -e git+https://github.com/JiscSD/ckanext-customised_fields_from_tag_vocabulary.git#egg=ckanext-customised_fields_from_tag_vocabulary && \
+    pip3 install -r ${SRC_DIR}/ckanext-customised-fields-from-tag-vocabulary/requirements.txt && \
+    pip3 install -e git+https://github.com/JiscSD/ckanext-ukdstheme.git#egg=ckanext-ukdstheme && \
+    pip3 install -r ${SRC_DIR}/ckanext-ukdstheme/requirements.txt && \
+    pip3 install -e git+https://github.com/JiscSD/ckanext-dataset_geo_display.git#egg=ckanext-dataset_geo_display && \
+    pip3 install -r ${SRC_DIR}/ckanext-dataset-geo-display/requirements.txt && \
     # Create and update CKAN config
     ckan generate config ${CKAN_INI} && \
     ckan config-tool ${CKAN_INI} "SECRET_KEY = " && \
