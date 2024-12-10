@@ -18,6 +18,7 @@ FROM python AS base
 ARG CKAN_REF=${CKAN_REF}
 # Make it available to child images
 ENV CKAN_REF=${CKAN_REF}
+ENV CKAN_INSTALL_VERSION=2.11
 
 # Internals, you probably don't need to change these
 ENV TZ=EN_GB
@@ -38,8 +39,8 @@ ENV UWSGI_HARAKIRI=50
 WORKDIR ${APP_DIR}
 
 # Check for updates
-RUN apt update && \
-    apt upgrade -y
+RUN apt-get update && \
+    apt-get upgrade -y
 
 # Set up timezone
 RUN echo ${TZ} > /etc/timezone
@@ -49,15 +50,15 @@ RUN echo ${TZ} > /etc/timezone
 ENV LC_ALL=en_GB.UTF-8
 
 # Set the locale
-RUN apt update && \
-    apt install --no-install-recommends -y locales && \
-    apt clean && \
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y locales && \
+    apt-get clean && \
     sed -i "/$LC_ALL/s/^# //g" /etc/locale.gen && \
     dpkg-reconfigure --frontend=noninteractive locales && \
     update-locale LANG=${LC_ALL}
 
 # Install system libraries
-RUN apt install --no-install-recommends -y \
+RUN apt-get install --no-install-recommends -y \
         apt-utils \
         g++ \
         git \
@@ -67,7 +68,7 @@ RUN apt install --no-install-recommends -y \
         mc \
         nano \
         wget && \
-    apt clean
+    apt-get clean
 
 # Create the src directory
 RUN mkdir -p ${SRC_DIR}
@@ -115,7 +116,7 @@ RUN groupadd -g 502 ckan-sys && \
 
 COPY setup/prerun.py ${APP_DIR}
 COPY setup/start_ckan.sh ${APP_DIR}
-ADD https://raw.githubusercontent.com/ckan/ckan/${CKAN_REF}/wsgi.py ${APP_DIR}
+ADD https://raw.githubusercontent.com/ckan/ckan/${CKAN_INSTALL_VERSION}/wsgi.py ${APP_DIR}
 RUN chmod 644 ${APP_DIR}/wsgi.py
 
 # Create entrypoint directory for children image scripts
@@ -156,7 +157,7 @@ ENV SRC_EXTENSIONS_DIR=${APP_DIR}/src_extensions
 USER root
 
 RUN cd ${SRC_DIR}/ckan && \
-pip3 install -r https://raw.githubusercontent.com/ckan/ckan/${CKAN_REF}/dev-requirements.txt
+pip3 install -r https://raw.githubusercontent.com/ckan/ckan/${CKAN_INSTALL_VERSION}/dev-requirements.txt
 
 COPY --chown=ckan-sys:ckan-sys setup/unsafe.cert setup/unsafe.key setup/start_ckan_development.sh setup/install_src.sh ${APP_DIR}
 
