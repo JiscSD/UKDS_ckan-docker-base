@@ -10,17 +10,21 @@ on:
         required: false
         default: 'Dockerfile'
         type: string
+      ckan-services-version:
+        required: true
+        default: 'latest'
+        type: string
 
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
     services:
       solr:
-        image: ckan/ckan-solr:${{ inputs.ckan-major-version }}-solr9
+        image: ckan/ckan-solr:${{ inputs.ckan-services-version }}-solr9
         ports:
           - 8983:8983
       postgres:
-        image: ckan/ckan-postgres-dev:${{ inputs.ckan-major-version }}
+        image: ckan/ckan-postgres-dev:${{ inputs.ckan-services-version }}
         ports:
           - 5432:5432
         env:
