@@ -8,3 +8,4 @@ jobs:
     with:
       ckan-major-version: "2.9"
       docker-file: "Dockerfile.py3.9"
+      ckan-services-version: "2.9"
