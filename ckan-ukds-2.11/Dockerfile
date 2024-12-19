@@ -101,6 +101,8 @@ RUN pip3 install -U pip && \
     pip3 install -r ${SRC_DIR}/ckanext-ukdstheme/requirements.txt && \
     pip3 install -e git+https://github.com/JiscSD/ckanext-dataset_geo_display.git#egg=ckanext-dataset_geo_display && \
     pip3 install -r ${SRC_DIR}/ckanext-dataset-geo-display/requirements.txt && \
+    pip3 install -e git+https://github.com/JiscSD/ckanext-ukds_custom_dcat_profiles.git#egg=ckanext-ukds_custom_dcat_profiles && \
+    pip3 install -r ${SRC_DIR}/ckanext-ukds-custom-dcat-profiles/requirements.txt && \
     # Create and update CKAN config
     ckan generate config ${CKAN_INI} && \
     ckan config-tool ${CKAN_INI} "SECRET_KEY = " && \
