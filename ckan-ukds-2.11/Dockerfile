@@ -74,35 +74,34 @@ RUN apt-get install --no-install-recommends -y \
 RUN mkdir -p ${SRC_DIR}
 
 # Install uwsgi, the CKAN application, the dependency packages for CKAN plus some confiquration
-RUN pip3 install -U pip && \
-    pip3 install uwsgi && \
+RUN python3 -m pip install -U pip && \
+    python3 -m pip install uwsgi && \
+    python3 -m pip install wheel && \
     cd ${SRC_DIR} && \
-    pip3 install -e git+${GIT_URL}@${CKAN_INSTALL_VERSION}#egg=ckan && \
+    python3 -m pip install -e git+${GIT_URL}@${CKAN_INSTALL_VERSION}#egg=ckan && \
     cd ckan && \
-    pip3 install --no-binary markdown -r requirements.txt && \
-    # Install CKAN envvars to support loading config from environment variables
-    pip3 install -e git+https://github.com/okfn/ckanext-envvars.git@v0.0.6#egg=ckanext-envvars && \
-    # Install CKAN Plugins
-    pip3 install ckanext-pdfview \
-            ckanext-envvars \
+    python3 -m pip install --no-binary markdown -r requirements.txt && \
+    # Install CKAN Plugins including envvars to support loading config from environment variables
+    python3 -m pip install envvars && \
+    python3 -m pip install -e git+https://github.com/ckan/ckanext-pages.git#egg=ckanext-pages && \
+    python3 -m pip install ckanext-pdfview \
             ckanext-geoview \
-            ckanext-matomo \
-            ckanext-xloader && \
-    pip3 install -r https://raw.githubusercontent.com/ckan/ckanext-xloader/master/requirements.txt && \
-    pip3 install -e git+https://github.com/ckan/ckanext-pages.git#egg=ckanext-pages && \
-    pip3 install -U requests[security] && \
-    pip3 install -e git+https://github.com/ckan/ckanext-harvest.git#egg=ckanext-harvest && \
-    pip3 install -r ${SRC_DIR}/ckanext-harvest/requirements.txt && \
-    pip3 install -e git+https://github.com/ckan/ckanext-dcat.git#egg=ckanext-dcat && \
-    pip3 install -r ${SRC_DIR}/ckanext-dcat/requirements.txt && \
-    pip3 install -e git+https://github.com/JiscSD/ckanext-customised_fields_from_tag_vocabulary.git#egg=ckanext-customised_fields_from_tag_vocabulary && \
-    pip3 install -r ${SRC_DIR}/ckanext-customised-fields-from-tag-vocabulary/requirements.txt && \
-    pip3 install -e git+https://github.com/JiscSD/ckanext-ukdstheme.git#egg=ckanext-ukdstheme && \
-    pip3 install -r ${SRC_DIR}/ckanext-ukdstheme/requirements.txt && \
-    pip3 install -e git+https://github.com/JiscSD/ckanext-dataset_geo_display.git#egg=ckanext-dataset_geo_display && \
-    pip3 install -r ${SRC_DIR}/ckanext-dataset-geo-display/requirements.txt && \
-    pip3 install -e git+https://github.com/JiscSD/ckanext-ukds_custom_dcat_profiles.git#egg=ckanext-ukds_custom_dcat_profiles && \
-    pip3 install -r ${SRC_DIR}/ckanext-ukds-custom-dcat-profiles/requirements.txt && \
+            ckanext-matomo && \
+    python3 -m pip install -U requests[security] && \
+    python3 -m pip install ckanext-xloader && \
+    python3 -m pip install -r https://raw.githubusercontent.com/ckan/ckanext-xloader/master/requirements.txt && \
+    python3 -m pip install -e git+https://github.com/ckan/ckanext-harvest.git#egg=ckanext-harvest && \
+    python3 -m pip install -r ${SRC_DIR}/ckanext-harvest/requirements.txt && \
+    python3 -m pip install -e git+https://github.com/ckan/ckanext-dcat.git#egg=ckanext-dcat && \
+    python3 -m pip install -r ${SRC_DIR}/ckanext-dcat/requirements.txt && \
+    python3 -m pip install -e git+https://github.com/JiscSD/ckanext-customised_fields_from_tag_vocabulary.git#egg=ckanext-customised_fields_from_tag_vocabulary && \
+    python3 -m pip install -r ${SRC_DIR}/ckanext-customised-fields-from-tag-vocabulary/requirements.txt && \
+    python3 -m pip install -e git+https://github.com/JiscSD/ckanext-ukdstheme.git#egg=ckanext-ukdstheme && \
+    python3 -m pip install -r ${SRC_DIR}/ckanext-ukdstheme/requirements.txt && \
+    python3 -m pip install -e git+https://github.com/JiscSD/ckanext-dataset_geo_display.git#egg=ckanext-dataset_geo_display && \
+    python3 -m pip install -r ${SRC_DIR}/ckanext-dataset-geo-display/requirements.txt && \
+    python3 -m pip install -e git+https://github.com/JiscSD/ckanext-ukds_custom_dcat_profiles.git#egg=ckanext-ukds_custom_dcat_profiles && \
+    python3 -m pip install -r ${SRC_DIR}/ckanext-ukds-custom-dcat-profiles/requirements.txt && \
     # Create and update CKAN config
     ckan generate config ${CKAN_INI} && \
     ckan config-tool ${CKAN_INI} "SECRET_KEY = " && \
@@ -156,7 +155,7 @@ ENV SRC_EXTENSIONS_DIR=${APP_DIR}/src_extensions
 USER root
 
 RUN cd ${SRC_DIR}/ckan && \
-pip3 install -r https://raw.githubusercontent.com/ckan/ckan/${CKAN_INSTALL_VERSION}/dev-requirements.txt
+python3 -m pip install -r https://raw.githubusercontent.com/ckan/ckan/${CKAN_INSTALL_VERSION}/dev-requirements.txt
 
 COPY --chown=ckan-sys:ckan-sys setup/unsafe.cert setup/unsafe.key setup/start_ckan_development.sh setup/install_src.sh ${APP_DIR}
 
