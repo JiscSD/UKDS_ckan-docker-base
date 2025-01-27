@@ -92,13 +92,13 @@ RUN python3 -m pip install -U pip && \
     python3 -m pip install -e git+https://github.com/ckan/ckanext-dcat.git#egg=ckanext-dcat && \
     python3 -m pip install -r ${SRC_DIR}/ckanext-dcat/requirements.txt && \
     python3 -m pip install -e git+https://github.com/JiscSD/ckanext-customised_fields_from_tag_vocabulary.git#egg=ckanext-customised_fields_from_tag_vocabulary && \
-    python3 -m pip install -r ${SRC_DIR}/ckanext-customised-fields-from-tag-vocabulary/requirements.txt && \
     python3 -m pip install -e git+https://github.com/JiscSD/ckanext-ukdstheme.git#egg=ckanext-ukdstheme && \
     python3 -m pip install -r ${SRC_DIR}/ckanext-ukdstheme/requirements.txt && \
     python3 -m pip install -e git+https://github.com/JiscSD/ckanext-dataset_geo_display.git#egg=ckanext-dataset_geo_display && \
     python3 -m pip install -r ${SRC_DIR}/ckanext-dataset-geo-display/requirements.txt && \
     python3 -m pip install -e git+https://github.com/JiscSD/ckanext-ukds_custom_dcat_profiles.git#egg=ckanext-ukds_custom_dcat_profiles && \
     python3 -m pip install -r ${SRC_DIR}/ckanext-ukds-custom-dcat-profiles/requirements.txt && \
+    python3 -m pip install -e git+https://github.com/JiscSD/ckanext-cookie-banner.git#egg=ckanext-cookie-banner && \
     # Create and update CKAN config
     ckan generate config ${CKAN_INI} && \
     ckan config-tool ${CKAN_INI} "SECRET_KEY = " && \
@@ -111,12 +111,13 @@ RUN groupadd -g 502 ckan-sys && \
 
 COPY setup/prerun.py ${APP_DIR}
 COPY setup/start_ckan.sh ${APP_DIR}
-ADD https://raw.githubusercontent.com/ckan/ckan/${CKAN_INSTALL_VERSION}/wsgi.py ${APP_DIR}
-RUN chmod 644 ${APP_DIR}/wsgi.py
+COPY https://raw.githubusercontent.com/ckan/ckan/${CKAN_INSTALL_VERSION}/wsgi.py ${APP_DIR}
 
+RUN chmod 644 ${APP_DIR}/wsgi.py
 # Create entrypoint directory for children image scripts
 RUN mkdir -p /docker-entrypoint.d && \
     chmod 755 /docker-entrypoint.d
+
 
 # Set the ownership of the app directory, usr/local and the entrypoint directory to the ckan-sys user
 RUN chown -R ckan-sys:ckan-sys ${APP_DIR} && \
