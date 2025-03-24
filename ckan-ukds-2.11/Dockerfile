@@ -83,10 +83,10 @@ RUN python3 -m pip install -U pip && \
     # Install CKAN Plugins including envvars to support loading config from environment variables
     python3 -m pip install -e git+https://github.com/ckan/ckanext-pages.git#egg=ckanext-pages && \
     python3 -m pip install ckanext-envvars \
-            ckanext-geoview \
-            ckanext-matomo && \
+            ckanext-geoview && \
     python3 -m pip install ckanext-xloader && \
     python3 -m pip install -r https://raw.githubusercontent.com/ckan/ckanext-xloader/master/requirements.txt && \
+    python3 -m pip install -e git+https://github.com/vrk-kpa/ckanext-matomo.git#egg=ckanext-matomo && \
     python3 -m pip install -e git+https://github.com/ckan/ckanext-harvest.git#egg=ckanext-harvest && \
     python3 -m pip install -r ${SRC_DIR}/ckanext-harvest/requirements.txt && \
     python3 -m pip install -e git+https://github.com/ckan/ckanext-dcat.git#egg=ckanext-dcat && \
