@@ -152,8 +152,8 @@ ENV SRC_EXTENSIONS_DIR=${APP_DIR}/src_extensions
 
 USER root
 
-RUN cd ${SRC_DIR}/ckan && \
-python3 -m pip install -r https://raw.githubusercontent.com/ckan/ckan/${CKAN_INSTALL_VERSION}/dev-requirements.txt
+WORKDIR ${SRC_DIR}/ckan
+RUN python3 -m pip install -r https://raw.githubusercontent.com/ckan/ckan/${CKAN_INSTALL_VERSION}/dev-requirements.txt
 
 COPY --chown=ckan-sys:ckan-sys setup/unsafe.cert setup/unsafe.key setup/start_ckan_development.sh setup/install_src.sh ${APP_DIR}
 
