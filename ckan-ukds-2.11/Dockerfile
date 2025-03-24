@@ -83,10 +83,10 @@ RUN python3 -m pip install -U pip && \
     # Install CKAN Plugins including envvars to support loading config from environment variables
     python3 -m pip install -e git+https://github.com/ckan/ckanext-pages.git#egg=ckanext-pages && \
     python3 -m pip install ckanext-envvars \
-            ckanext-geoview \
-            ckanext-matomo && \
+            ckanext-geoview && \
     python3 -m pip install ckanext-xloader && \
     python3 -m pip install -r https://raw.githubusercontent.com/ckan/ckanext-xloader/master/requirements.txt && \
+    python3 -m pip install -e git+https://github.com/vrk-kpa/ckanext-matomo.git#egg=ckanext-matomo && \
     python3 -m pip install -e git+https://github.com/ckan/ckanext-harvest.git#egg=ckanext-harvest && \
     python3 -m pip install -r ${SRC_DIR}/ckanext-harvest/requirements.txt && \
     python3 -m pip install -e git+https://github.com/ckan/ckanext-dcat.git#egg=ckanext-dcat && \
@@ -152,8 +152,8 @@ ENV SRC_EXTENSIONS_DIR=${APP_DIR}/src_extensions
 
 USER root
 
-RUN cd ${SRC_DIR}/ckan && \
-python3 -m pip install -r https://raw.githubusercontent.com/ckan/ckan/${CKAN_INSTALL_VERSION}/dev-requirements.txt
+WORKDIR ${SRC_DIR}/ckan
+RUN python3 -m pip install -r https://raw.githubusercontent.com/ckan/ckan/${CKAN_INSTALL_VERSION}/dev-requirements.txt
 
 COPY --chown=ckan-sys:ckan-sys setup/unsafe.cert setup/unsafe.key setup/start_ckan_development.sh setup/install_src.sh ${APP_DIR}
 
