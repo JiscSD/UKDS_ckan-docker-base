@@ -86,7 +86,7 @@ RUN python3 -m pip install -U pip && \
             ckanext-geoview && \
     python3 -m pip install ckanext-xloader && \
     python3 -m pip install -r https://raw.githubusercontent.com/ckan/ckanext-xloader/master/requirements.txt && \
-    python3 -m pip install -e git+https://github.com/vrk-kpa/ckanext-matomo.git#egg=ckanext-matomo && \
+    python3 -m pip install -e git+https://github.com/JiscSD/ckanext-matomo-js.git#egg=ckanext-matomo-js && \
     python3 -m pip install -e git+https://github.com/ckan/ckanext-harvest.git#egg=ckanext-harvest && \
     python3 -m pip install -r ${SRC_DIR}/ckanext-harvest/requirements.txt && \
     python3 -m pip install -e git+https://github.com/ckan/ckanext-dcat.git#egg=ckanext-dcat && \
